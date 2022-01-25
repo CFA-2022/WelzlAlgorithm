@@ -22,4 +22,5 @@ def scatter_plot(coords, convex_hull=None):
 if __name__ == '__main__':
     points = create_points(256)
     print(points)
-    scatter_plot(points)
+    hull = [256, 410], [425, 312], [230, 260], [303, 428], [466, 207], [414, 328], [382, 347]
+    scatter_plot(points, hull)
