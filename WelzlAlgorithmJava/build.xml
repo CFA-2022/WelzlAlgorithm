@@ -13,14 +13,14 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <javac debug="true" srcdir="${src}" excludes="" destdir="${build}"
-    	   classpath="${build}/:jars/supportGUI.jar"/>
+    	   classpath="${build}/:jars/Helper.jar"/>
   </target>
 
   <target name="run" depends="compile"
           description="run examples">
     <echo>================ Run Object Main ================</echo>
-    <java classname="supportGUI.DiamRace"
-          classpath="${build}/:jars/supportGUI.jar" fork="true">
+    <java classname="Helper.DiamRace"
+          classpath="${build}/:jars/Helper.jar" fork="true">
     </java>
   </target>
 

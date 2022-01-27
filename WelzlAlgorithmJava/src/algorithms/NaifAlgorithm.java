@@ -1,6 +1,6 @@
 package algorithms;
 
-import supportGUI.Circle;
+import Helper.Circle;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,11 +9,9 @@ public class NaifAlgorithm {
 
     public static Circle naifAlgorithm(ArrayList<Point> inputPoints) {
         ArrayList<Point> points = (ArrayList<Point>) inputPoints.clone();
-        //ArrayList<Point> points = filtragePoints(inputPoints);
-        System.out.println(inputPoints.size());
-        System.out.println(points.size());
+
         if (points.size()<1) return null;
-        double cX,cY,cRadius,cRadiusSquared;
+        double cX,cY,cRadiusSquared;
         for (Point p: points){
             for (Point q: points){
                 cX = .5*(p.x+q.x);
@@ -72,7 +70,7 @@ public class NaifAlgorithm {
                             allHit = false;
                             break;
                         }
-                    if (allHit) {System.out.println("Found r="+Math.sqrt(cRadiusSquared));resX=cX;resY=cY;resRadiusSquared=cRadiusSquared;}
+                    if (allHit) {resX=cX;resY=cY;resRadiusSquared=cRadiusSquared;}
                 }
             }
         }

@@ -1,6 +1,6 @@
 package algorithms;
 
-import supportGUI.Circle;
+import Helper.Circle;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,7 +91,7 @@ public class WelzlAlgorithm {
 
     public static Circle welzlAlgorithm(ArrayList<Point> points) {
         Collections.shuffle(points);
-        return B_MINIDISK(points, new ArrayList<Point>());
+        return B_MINIDISK(points, new ArrayList<>());
     }
 
 }
