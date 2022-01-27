@@ -1,7 +1,11 @@
 package algorithms;
 
 import supportGUI.Circle;
+import supportGUI.DiamRace;
+import supportGUI.FramedDiamRace;
+import supportGUI.Variables;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -35,7 +39,15 @@ public class WelzlAlgorithm {
         return new Circle(I, (int)(Math.sqrt(distanceCarre(I, p)/2)));
     }
 
-    private static Circle trivial(ArrayList<Point> R) {
+    private static boolean isCircleValid(Circle C, ArrayList<Point> P) {
+        for(Point p: P) {
+            if (isPointInsideCircle(C, p))
+                return false;
+        }
+        return true;
+    }
+
+    private static Circle trivial(ArrayList<Point> R, ArrayList<Point> P) {
         int lengthOfR = R.size();
         if (lengthOfR == 0) {
             return new Circle(new Point(0,0), 0);
@@ -46,23 +58,33 @@ public class WelzlAlgorithm {
         if (lengthOfR == 2) {
             return getCircle(R.get(0), R.get(1));
         }
+
+        for(int i = 0;i < 3;i++) {
+            for(int j = i + 1;j < 3;j++) {
+                Circle C = getCircle(R.get(i), R.get(j));
+                if (isCircleValid(C, P)) {
+                    return C;
+                }
+            }
+        }
         return getCircle(R.get(0), R.get(1), R.get(2));
     }
 
     private static boolean isPointInsideCircle(Circle C, Point p) {
-        return distanceCarre(C.getCenter(), p) <= C.getRadius()*C.getRadius();
+        //return distanceCarre(C.getCenter(), p) <= C.getRadius()*C.getRadius();
+        return Math.sqrt(distanceCarre(C.getCenter(), p)) <= C.getRadius();
     }
 
     public static Circle B_MINIDISK(ArrayList<Point> P, ArrayList<Point> R) {
+        System.out.println(R.size());
         if (P.size() == 0 || R.size() == 3) {
-            return trivial(R);
+            return trivial(R, P);
         }
 
-        ArrayList<Point> PCopy = (ArrayList<Point>) P.clone();
-        int rIndex = randomIndex(0,PCopy.size());
-        Point p = PCopy.get(rIndex);
-        PCopy.remove(rIndex);
-        Circle D = B_MINIDISK(PCopy, R);
+        int rIndex = randomIndex(0,P.size());
+        Point p = P.get(rIndex);
+        P.remove(rIndex);
+        Circle D = B_MINIDISK(P, R);
 
         if (isPointInsideCircle(D, p)) {
             return D;
@@ -70,10 +92,19 @@ public class WelzlAlgorithm {
 
         R.add(p);
 
-        return B_MINIDISK(PCopy, R);
+        return B_MINIDISK(P, R);
     }
 
     public static Circle welzlAlgorithm(ArrayList<Point> points) {
-        return B_MINIDISK(points, new ArrayList<Point>());
+        ArrayList<Point> inputPoints = (ArrayList<Point>) points.clone();
+        return B_MINIDISK(inputPoints, new ArrayList<Point>());
     }
+
+    // QuickTest
+    /*
+    public static void main(String[] args) {
+
+    }
+    */
+
 }

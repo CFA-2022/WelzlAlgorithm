@@ -48,7 +48,13 @@ public class DefaultTeam {
   //   renvoie un cercle couvrant tout point de la liste, de rayon minimum.
   public Circle calculCercleMin(ArrayList<Point> inputPoints) {
     //return NaifAlgorithm.naifAlgorithm(inputPoints);
-    return WelzlAlgorithm.welzlAlgorithm(inputPoints);
+    //return WelzlAlgorithm.welzlAlgorithm(inputPoints);
+
+    //Circle C = NaifAlgorithm.naifAlgorithm(inputPoints);
+    Circle C = WelzlAlgorithm.welzlAlgorithm(inputPoints);
+    System.out.println(C.getCenter());
+    System.out.println(C.getRadius());
+    return C;
   }
 
   private ArrayList<Point> filtragePoints(ArrayList<Point> points){
