@@ -55,22 +55,27 @@ public class WelzlAlgorithm {
         return distanceCarre(C.getCenter(), p) <= C.getRadius()*C.getRadius();
     }
 
+    private static Circle trivial(ArrayList<Point> P, int lenP, ArrayList<Point> R, int lenR) {
+        if (lenR == 3) {
+            return getCircle(R.get(0), R.get(1), R.get(2));
+        } else if (lenP == 1 && lenR == 0) {
+            return new Circle(P.get(0), 0);
+        } else if (lenP == 0 && lenR == 2) {
+            return getCircle(R.get(0), R.get(1));
+        } else if (lenP == 1 && lenR == 1) {
+            return getCircle(R.get(0), P.get(0));
+        }
+        return null;
+    }
+
     public static Circle B_MINIDISK(ArrayList<Point> Ps, ArrayList<Point> Rs) {
         Circle D;
-
         ArrayList<Point> P = (ArrayList<Point>) Ps.clone();
         ArrayList<Point> R = (ArrayList<Point>) Rs.clone();
-
-        int lengthOfR = R.size();
-        int lengthOfP = P.size();
-        if (lengthOfR == 3) {
-            D = getCircle(R.get(0), R.get(1), R.get(2));
-        } else if (lengthOfP == 1 && lengthOfR == 0) {
-            D = new Circle(P.get(0), 0);
-        } else if (lengthOfP == 0 && lengthOfR == 2) {
-            D = getCircle(R.get(0), R.get(1));
-        } else if (lengthOfP == 1 && lengthOfR == 1) {
-            D = getCircle(R.get(0), P.get(0));
+        int lenR = R.size();
+        int lenP = P.size();
+        if(lenR == 3 || (lenP == 1 && (lenR == 0 || lenR == 1)) || (lenP == 0 && lenR == 2)) {
+            D = trivial(P, lenP, R, lenR);
         } else {
             Point p = P.get(0);
             P.remove(0);
@@ -85,9 +90,8 @@ public class WelzlAlgorithm {
     }
 
     public static Circle welzlAlgorithm(ArrayList<Point> points) {
-        ArrayList<Point> inputPoints = (ArrayList<Point>) points.clone();
-        Collections.shuffle(inputPoints);
-        return B_MINIDISK(inputPoints, new ArrayList<Point>());
+        Collections.shuffle(points);
+        return B_MINIDISK(points, new ArrayList<Point>());
     }
 
 }
