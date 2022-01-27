@@ -37,23 +37,6 @@ public class Keymaps implements KeyListener {
                 c.setColor(Color.RED);
                 this.rootPanel.addCircleAndT(c, t);
                 break;
-            case 'd':
-                t = System.currentTimeMillis();
-                l = (new DefaultTeam()).calculDiametre(this.rootPanel.getPoints());
-                t = System.currentTimeMillis() - t;
-                l.setColor(Color.RED);
-                this.rootPanel.addLineAndT(l, t);
-                break;
-            case 'f':
-                try {
-                    t = System.currentTimeMillis();
-                    l = (new DefaultTeam()).calculDiametre(this.rootPanel.getPoints());
-                    t = System.currentTimeMillis() - t;
-                    l.setColor(Color.GREEN);
-                    this.rootPanel.addLineAndT(l, t);
-                    break;
-                } catch (Exception var9) {
-                }
             case 'e':
                 try {
                     t = System.currentTimeMillis();
