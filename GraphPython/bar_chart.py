@@ -3,33 +3,31 @@ import numpy as np
 
 def read_file(file):
     with open(file) as f:
-        sum = 0
-        lineCount = 0
-        for line in f:
-            value = int(line.strip())
-            sum +=value
-            lineCount += 1
-        sum = round(sum/1664, 2)
-        result = [sum]
-    return sum
+        result = [int(line.strip()) for line in f]
 
-def get_chart(naiveRes, welzlRes):
-    labels = ['Result']
+    return result
 
-    x = np.arange(len(labels))
-    width = 0.4
 
+def get_chart(result, name):
+    algoRes = np.array(result)
+
+    # Calcul la moyenne
+    moyen = round(np.mean(algoRes), 2)
+
+    # Calcul deviation standard
+    std = round(np.std(algoRes), 2)
+
+    labels = [name]
+    x_pos = np.arange(len(labels))
+    average = [moyen]
+    std = [std]
+
+    # Construire diagramme
     fig, ax = plt.subplots()
-    naiveBar = ax.bar(x - width/2, naiveRes, width, label="Naive Algorithm")
-    welzlBar = ax.bar(x + width/2, welzlRes, width, label="Welzl Algorithm")
-
+    ax.bar(x_pos, average, yerr=std, align='center', alpha=0.5, ecolor='black', capsize=10)
     ax.set_ylabel('Milliseconds')
-    ax.set_title('Moyenne')
-    ax.set_xticks(x, labels)
-    ax.legend()
-
-    ax.bar_label(naiveBar, padding=3)
-    ax.bar_label(welzlBar, padding=3)
+    ax.set_title('Temp de calcul moyen / 1664 tests avec deviation standard')
+    ax.set_xticks(x_pos, labels)
 
     fig.tight_layout()
 
@@ -38,4 +36,5 @@ def get_chart(naiveRes, welzlRes):
 if __name__ == '__main__':
     naiveRes = read_file("../WelzlAlgorithmJava/algo_naif_results.txt")
     welzlRes = read_file("../WelzlAlgorithmJava/algo_welzl_results.txt")
-    get_chart(naiveRes, welzlRes)
+    get_chart(naiveRes, "Naive")
+    get_chart(welzlRes, "Welzl")
